@@ -1,10 +1,10 @@
 {
-  "name": "Example Plugin",
-  "author": "John Doe",
-  "flags": ["debug", "_root"],
+  "name": "DeckTweaks",
+  "author": "Omar Omar",
+  "flags": [],
   "publish": {
-    "tags": ["template", "root", "dnu"],
-    "description": "Decky example plugin.",
+    "tags": ["monitoring", "battery"],
+    "description": "SteamDeck Tweaks.",
     "image": "https://opengraph.githubassets.com/1/SteamDeckHomebrew/PluginLoader"
   }
 }

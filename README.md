@@ -1,13 +1,31 @@
 # DeckTweaks
-A [decky-loader](https://github.com/SteamDeckHomebrew/deckly-loader) homebrew plugin that contains configurable SteamDeck tweaks.
+A [decky-loader](https://github.com/SteamDeckHomebrew/decky-loader) homebrew plugin that contains configurable SteamDeck tweaks.
 
 ## Features
 ### Battery Monitor
 Backend API can monitor the battery percentage, providing feedback to the user (*through toast notification*) upon low battery charge
 or a given max/min charge percentages.
 
+<p align="center">
+   <img src="assets/thumbnail.png", width="80%">
+</p>
+
+Notifications are issued based on the charge limits set, as shown below with a minimum charge limt of `30%` and max maximum charge limit
+of `80%`:
+<p align="center">
+   <img src="assets/min_charge_notification.png", width="512px">
+   <img src="assets/max_charge_notification.png", width="512px">
+</p>
+
+The user is also notified when the battery gets to a critical low charge state of `5%`:
+<p align="center">
+   <img src="assets/crit_low_battery_notification.png", width="512px">
+</p>
+
+
+
 ## Backend API
-The backend server is written in go and can be built by invoking the [build.sh](backend/build.sh) script and then starting the server
+`development`: The backend server is written in go and can be built by invoking the [build.sh](backend/build.sh) script and then starting the server
 manually using:
 ```sh
 > server start

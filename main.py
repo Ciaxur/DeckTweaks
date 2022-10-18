@@ -1,18 +1,35 @@
+import asyncio
 import logging
+from os import path
+from subprocess import Popen
 
-logging.basicConfig(filename="/tmp/template.log",
-                    format='[Template] %(asctime)s %(levelname)s %(message)s',
+logging.basicConfig(filename="/tmp/decktweaks.log",
+                    format='[DeckTweaks] %(asctime)s %(levelname)s %(message)s',
                     filemode='w+',
                     force=True)
 logger=logging.getLogger()
-logger.setLevel(logging.INFO) # can be changed to logging.DEBUG for debugging issues
+logger.setLevel(logging.INFO)
+
+PROJECT_DIR = path.realpath(path.dirname(__file__))
+BACKEND_STDOUT_FILE = "/tmp/decktweaks_backend-stdout.log"
+BACKEND_STDERR_FILE = "/tmp/decktweaks_backend-stderr.log"
 
 class Plugin:
-    # A normal method. It can be called from JavaScript using call_plugin_function("method_1", argument1, argument2)
-    async def add(self, left, right):
-        return left + right
-
-    # Asyncio-compatible long-running code, executed in a task when the plugin is loaded
     async def _main(self):
         logger.info("Starting Plugin")
-        pass
+
+        # Start the backend server, directing outputs to a log file.
+        backend_server_bin = path.join(PROJECT_DIR, "bin/server")
+        backend_stdout_fd = open(BACKEND_STDOUT_FILE, 'a')
+        backend_stderr_fd = open(BACKEND_STDERR_FILE, 'a')
+
+        logger.info(f"Starting backend {backend_server_bin}")
+        Popen(
+            [backend_server_bin, "start"],
+            stdout=backend_stdout_fd,
+            stderr=backend_stderr_fd,
+            cwd=PROJECT_DIR,
+        )
+
+        while True:
+            await asyncio.sleep(1)

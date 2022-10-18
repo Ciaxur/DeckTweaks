@@ -66,8 +66,8 @@ func (n *NotificationMonitor) RunMonitor(s *settings.Settings) {
 
 	// Use a poll rate to watch over files.
 	for n.isAlive {
-		time.Sleep(time.Duration(n.pollRate_s) * time.Second)
 		fmt.Printf("[%v] NotificationMonitor: Polling at %ds...\n", time.Now(), n.pollRate_s)
+		time.Sleep(time.Duration(n.pollRate_s) * time.Second)
 
 		// Monitor the battery's state compared to the settings.
 		bat_perc, err := battery.GetPercentage()

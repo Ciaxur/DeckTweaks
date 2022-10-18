@@ -87,7 +87,10 @@ func handleSetSettings(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Respond with the current status.
-	buff, err := json.Marshal(currentSettings)
+	buff, err := json.Marshal(&status.SettingsResponse{
+		Settings: *currentSettings,
+		Message:  "Updated Successfully.",
+	})
 	if err != nil {
 		http.Error(w, fmt.Sprintf("failed to serialize current status: %v", err), http.StatusInternalServerError)
 		return

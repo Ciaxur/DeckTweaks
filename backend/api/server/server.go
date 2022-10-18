@@ -26,6 +26,7 @@ func Run(opts *ServerOpts) error {
 	router := mux.NewRouter()
 
 	// Add Middleware.
+	router.Use(middlewares.DefaultHeaders)
 	router.Use(middlewares.Logger)
 
 	// Add Routes.
