@@ -39,7 +39,7 @@ type DevToolsEndpointResponse struct {
 	Endpoints []DevToolsEndpointEntry
 }
 
-func GetSPWebsocketEntry() (*DevToolsEndpointEntry, error) {
+func GetSteamWebsocketEntry() (*DevToolsEndpointEntry, error) {
 	// Request available hosted websockets.
 	resp, err := http.Get(fmt.Sprintf("%s/json", DevToolsEndpoint))
 	if err != nil {
@@ -57,25 +57,25 @@ func GetSPWebsocketEntry() (*DevToolsEndpointEntry, error) {
 		return nil, fmt.Errorf("failed deserialize devtool endpoint body: %v", err)
 	}
 
-	// Extract the SP Websocket.
+	// Extract the Steam Websocket.
 	for _, entry := range devToolEndpoints.Endpoints {
-		if entry.Title == "SP" {
+		if entry.Title == "Steam" {
 			return &entry, nil
 		}
 	}
 
-	return nil, fmt.Errorf("failed to find SP entry")
+	return nil, fmt.Errorf("failed to find Steam entry")
 }
 
 func InjectJs(js_expression string) error {
-	sp_endpoint, err := GetSPWebsocketEntry()
+	steam_endpoint, err := GetSteamWebsocketEntry()
 	if err != nil {
 		return fmt.Errorf("failed to get SP websocket: %v", err)
 	}
 
-	client, _, err := websocket.DefaultDialer.Dial(sp_endpoint.WebsocketDebuggerUrl, nil)
+	client, _, err := websocket.DefaultDialer.Dial(steam_endpoint.WebsocketDebuggerUrl, nil)
 	if err != nil {
-		return fmt.Errorf("failed to establish a websocket connection with '%s': %v", sp_endpoint.WebsocketDebuggerUrl, err)
+		return fmt.Errorf("failed to establish a websocket connection with '%s': %v", steam_endpoint.WebsocketDebuggerUrl, err)
 	}
 	defer client.Close()
 
