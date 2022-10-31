@@ -17,6 +17,11 @@ type ServerOpts struct {
 }
 
 func Run(opts *ServerOpts) error {
+	// Initialize server requirements.
+	if err := Init(); err != nil {
+		return fmt.Errorf("failed to start server: %v", err)
+	}
+
 	server := &http.Server{
 		Addr:         fmt.Sprintf("%s:%d", opts.Host, opts.Port),
 		ReadTimeout:  5 * time.Minute,
@@ -25,9 +30,12 @@ func Run(opts *ServerOpts) error {
 
 	router := mux.NewRouter()
 
-	// Add Middleware.
+	// Add Middlewares.
 	router.Use(middlewares.DefaultHeaders)
 	router.Use(middlewares.Logger)
+
+	// Add on-response path Middlewares.
+	router.Use(middlewares.SaveConfigOnResponse)
 
 	// Add Routes.
 	routes.InitRoutes(router)

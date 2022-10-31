@@ -2,6 +2,10 @@
 A [decky-loader](https://github.com/SteamDeckHomebrew/decky-loader) homebrew plugin that contains configurable SteamDeck tweaks.
 
 ## Features
+### Configuration
+DeckTweaks configuration is stored under `/home/deck/.config/decktweaks`.
+- Persistent settings are stored in `settings.json`.
+
 ### Battery Monitor
 Backend API can monitor the battery percentage, providing feedback to the user (*through toast notification*) upon low battery charge
 or a given max/min charge percentages.
