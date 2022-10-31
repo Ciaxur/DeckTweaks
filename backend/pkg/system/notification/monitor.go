@@ -23,7 +23,7 @@ type NotificationMonitor struct {
 func NewMonitor(s *settings.Settings) *NotificationMonitor {
 	return &NotificationMonitor{
 		isAlive:    false,
-		pollRate_s: 60,
+		pollRate_s: 5,
 		m_settings: s,
 	}
 }
