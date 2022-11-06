@@ -105,11 +105,11 @@ func GetChargeStatus() (int8, error) {
 }
 
 type BatteryState struct {
-	Error      error
-	CurrentNow int64
-	VoltageNow int64
-	Status     string
-	Capacity   int64
+	Error      error  `json:"error"`
+	CurrentNow int64  `json:"currentNow"`
+	VoltageNow int64  `json:"voltageNow"`
+	Status     string `json:"status"`
+	Capacity   int64  `json:"capacity"`
 }
 
 /**
@@ -207,14 +207,12 @@ func StreamBatteryState(battChan chan BatteryState, quit chan bool) {
 		chargeState_fd.Seek(0, 0)
 		capacity_fd.Seek(0, 0)
 
-		fmt.Println("DEBUG: Looping")
 		switch {
 		case <-quit:
 			fmt.Printf("[%s] Battery State Go-routine: quitting", time.Now())
 			return
 		default:
 			// Read values from sysfs.
-			fmt.Println("DEBUG: Reading from buffer")
 			state.CurrentNow, err = readInt64FromFd(currentNow_fd)
 			if err != nil {
 				fmt.Printf("[%s] Battery State Go-routine failed to read from Current Now sysfs\n", time.Now())

@@ -2,13 +2,11 @@ import {
   ButtonItem,
   definePlugin,
   DialogButton,
-  gamepadDialogClasses,
   PanelSection,
   PanelSectionRow,
   Router,
   ServerAPI,
   staticClasses,
-  joinClassNames,
   ToggleField,
   SliderField,
 } from "decky-frontend-lib";
@@ -18,8 +16,11 @@ import {
   FaBreadSlice,
   FaHeart,
 } from "react-icons/fa";
-
-const BACKEND_API = "http://localhost:3001";
+import { BatteryState } from "./Components";
+import {
+  BACKEND_API,
+  FieldWithSeparator
+} from "./Common";
 
 interface IBatteryMonitor {
   enabled:          boolean,
@@ -38,8 +39,8 @@ interface ISetSettingsRequest {
   battery: IBatteryMonitor,
 };
 
+
 const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
-  const FieldWithSeparator = joinClassNames(gamepadDialogClasses.Field, gamepadDialogClasses.WithBottomSeparatorStandard);
 
   // Battery Monitor State.
   const [batteryMonitorState, setBatteryMonitorState] = useState<IBatteryMonitor>({
@@ -155,6 +156,8 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
             >
             ToastTest
           </ButtonItem>
+
+          <BatteryState />
         </div>
       </PanelSectionRow>
     </PanelSection>

@@ -23,20 +23,19 @@ func HandleBatteryTelemetryWebSocket(w http.ResponseWriter, r *http.Request) {
 	quit := make(chan bool)
 	go battery.StreamBatteryState(battTelem, quit)
 
-	for i := 0; i < 10; i++ {
+	for {
 		quit <- false
 		t := <-battTelem
 
 		// Write data to WebSocket.
 		if err := conn.WriteJSON(t); err != nil {
-			http.Error(w, fmt.Sprintf("failed to write JSON data to socket: %v", err), http.StatusInternalServerError)
+			fmt.Printf("[%s] Websocket failed to write JSON data: %v\n", time.Now(), err)
 			break
 		}
 
 		// Close connection if there was a failure.
 		if t.Error != nil {
 			fmt.Printf("[%s] Websocket Battery Telemetry connection failed: %v", time.Now(), t.Error)
-			quit <- true
 			break
 		}
 	}
