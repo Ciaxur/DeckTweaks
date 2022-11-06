@@ -1,6 +1,8 @@
 package telemetry
 
-import "github.com/gorilla/websocket"
+import (
+	"github.com/gorilla/websocket"
+)
 
 // Routes: Websocket endpoints.
 var (
